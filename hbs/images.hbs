@@ -1,0 +1,26 @@
+<div class="images-viewport">
+    {{view App.ImageCollectionView content=content index=index}}
+</div>
+
+<div class="controls-container">
+    <div {{action "toggleTEXTp"}} {{bind-attr class=":btn TEXTp:btn-success:btn-default"}}>
+        TEXTp
+    </div>
+
+{{#if isPaginated}}
+    <div class="pagination-container">
+        <span class="index">
+            <strong>{{ current }}</strong> of <strong>{{ total }}</strong>
+        </span>
+
+        <div {{action "previous"}} {{bind-attr class=":btn :btn-default isPreviousDisabled:disabled"}}>
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </div>
+
+        <div {{action "next"}} {{bind-attr class=":btn :btn-default isNextDisabled:disabled"}}">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </div>
+    </div>
+{{/if}}
+
+</div>

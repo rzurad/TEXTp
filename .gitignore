@@ -1,0 +1,4 @@
+.DS_Store
+css/app.css
+node_modules/
+*.swp

@@ -1,0 +1,10 @@
+{
+    "name": "asciify-app",
+    "version": "0.0.0",
+    "author": "Richard Zurad <rzurad@gmail.com>",
+    "description": "Ember app for converting images to ascii in the style of YouTube's TEXTp gag",
+    "devDependencies": {
+        "grunt": "0.4.4",
+        "grunt-contrib-less": "0.10.0"
+    }
+}
