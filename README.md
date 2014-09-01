@@ -1,29 +1,51 @@
-TODO:
+# Textp
 
-* BUG: index (used by left css rule) does not reset to 0 when image.content is changed
-* Chunk processing
-* Image scale switching
-* Make beautiful
-* Refactor CSS
-* X-Browser
-* Building
-* About view
-* Bowtie
+This README outlines the details of collaborating on this Ember application.
 
-FEATURE-CREEP:
+A short introduction of this app could easily go here.
 
-* Add support for video (WebGL shader?)
-* analytics
+## Prerequisites
 
-FAQ
+You will need the following things properly installed on your computer.
 
-Q: Can I download the asciified images?
+* [Git](http://git-scm.com/)
+* [Node.js](http://nodejs.org/) (with NPM) and [Bower](http://bower.io/)
 
-Q: Do my asciified images get saved to a server somewhere?
-A: No. All processing on the images happens in the browser. Neither the original files or the asciified files are sent to any server at any time, so unfortunately you can not asciify an image and then send your current URL to a friend to easily share it. While this would be a really cool feature to have, I'm not looking to start an image hosting service, nor am I looking to interface with an image host that will blame me if you decide to asciify images of questionable content. What happens in asciify stays in asciify.
+## Installation
 
-Q: Why do you only support <supported browsers>?
-A: I only support Internet Explorer when I -need- am paid to.:q
+* `git clone <repository-url>` this repository
+* change into the new directory
+* `npm install`
+* `bower install`
 
-Q: What file types are supported
-A:
+## Running / Development
+
+* `ember server`
+* Visit your app at http://localhost:4200.
+
+### Code Generators
+
+Make use of the many generators for code, try `ember help generate` for more details
+
+### Running Tests
+
+* `ember test`
+* `ember test --server`
+
+### Building
+
+* `ember build` (development)
+* `ember build --environment production` (production)
+
+### Deploying
+
+Specify what it takes to deploy your app.
+
+## Further Reading / Useful Links
+
+* ember: http://emberjs.com/
+* ember-cli: http://www.ember-cli.com/
+* Development Browser Extensions
+  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
+  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+

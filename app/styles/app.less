@@ -1,0 +1,185 @@
+@import "vendor/bootstrap/less/bootstrap.less";
+
+html,
+body,
+.application,
+.application-outlet {
+    height: 100%;
+    width: 100%;
+}
+
+.application,
+.images-viewport {
+    transition-property: border;
+    transition-duration: 0.3s;
+    border: 0px solid #bce8f1;
+
+    &.hovering {
+        border-width: 8px;
+
+        .alert.alert-info {
+            opacity: 1;
+        }
+    }
+}
+
+.application-outlet {
+    background: radial-gradient(ellipse at center, #383838 0%,#2e2e2e 40%,#212121 100%);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.splash-content {
+    width: 350px;
+    height: 220px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -110px;
+    margin-left: -175px;
+    background-color: #1b1d1d;
+    padding: 0px 20px;
+    border-radius: 10px;
+    color: #919191;
+    box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
+
+    .about-footer {
+        margin-top: 13px;
+        
+        a {
+            color: #919191;
+            font-size: 85%;
+        }
+    }
+
+    .input-container {
+        position: relative;
+        margin-top: 15px;
+    }
+
+    input {
+        height: 45px;
+        width: 100%;
+        top: 0px;
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    h2 {
+        color: #fff;
+    }
+}
+
+.progress-bar-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    background-color: black;
+
+    .progress-fill {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 0%;
+        background-color: green;
+    }
+}
+
+.textp {
+    .original {
+        display: none;
+    }
+
+    .save-target {
+        display: block;
+    }
+}
+
+.images-viewport {
+    position: absolute;
+    top: 0px;
+    bottom: 54px;
+    right: 0px;
+    left: 0px;
+    overflow: hidden;
+
+    .images-container {
+        transition-property: left;
+        transition-duration: 0.3s;
+        height: 100%;
+        position: relative;
+        white-space: nowrap;
+    }
+
+    .image-container {
+        height: 100%;
+        width: 100%;
+        display: inline-block;
+        white-space: normal;
+        background: radial-gradient(ellipse at center, #383838 0%,#2e2e2e 40%,#212121 100%);
+
+        div {
+            margin-left: auto;
+            margin-right: auto;
+            height: 100%;
+            width: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    }
+}
+
+.save-target {
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    top: 0;
+}
+
+.alert {
+    transition-property: opacity;
+    transition-duration: 0.3s;
+    opacity: 0;
+    width: 330px;
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    margin-left: -165px;
+    margin-top: -21px;
+    text-align: center;
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.controls-container {
+    background-color: #1d1b1b;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+
+    .pagination-container {
+        position: absolute;
+        right: 10px;
+        display: inline-block;
+
+        .index {
+            padding: 0px 10px;
+        }
+    }
+}
+
+.bad-drop .alert-danger {
+    opacity: 1;
+}
+
