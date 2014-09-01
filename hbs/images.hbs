@@ -3,6 +3,12 @@
 </div>
 
 <div class="controls-container">
+{{#if isProcessing}}
+    <div class="progress-bar-container">
+        <div class="progress-fill" {{bind-attr style=progressFillStyle}}></div>
+    </div>
+{{/if}}
+
     <div {{action "toggleTEXTp"}} {{bind-attr class=":btn TEXTp:btn-success:btn-default"}}>
         TEXTp
     </div>
@@ -22,5 +28,4 @@
         </div>
     </div>
 {{/if}}
-
 </div>
