@@ -1,19 +1,20 @@
 TODO:
 
 * BUG: index (used by left css rule) does not reset to 0 when image.content is changed
-* Chunk processing
+* Chunk processing & Progress Bar interfac
 * Image scale switching
 * Make beautiful
 * Refactor CSS
 * X-Browser
-* Building
-* About view
-* Bowtie
+* About
+* Tests
+* Comments
 
 FEATURE-CREEP:
 
 * Add support for video (WebGL shader?)
 * analytics
+* processing.js
 
 FAQ
 
