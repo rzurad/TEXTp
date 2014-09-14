@@ -54,6 +54,7 @@ ImagesController = Ember.ArrayController.extend({
                 imagesProcessed = 0,
                 imageCount = content.get('length');
 
+            instance.set('index', 0);
             instance.set('pixelsProcessed', 0);
             instance.set('pixelCount', content.reduce(function (previous, current) {
                     return previous + current.height * current.width;
