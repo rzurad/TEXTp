@@ -71,23 +71,39 @@ body,
     }
 }
 
-.progress-bar-container {
+.progress-bar-background {
     position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 10;
-    background-color: black;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    white-space: normal;
+    background: radial-gradient(ellipse at center, #383838 0%,#2e2e2e 40%,#212121 100%);
 
-    .progress-fill {
+    .progress-bar-content {
+        width: 500px;
+        height: 107px;
         position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        width: 0%;
-        background-color: green;
+        top: 50%;
+        left: 50%;
+        margin-top: -50px;
+        margin-left: -250px;
+        background-color: #1b1d1d;
+        padding: 20px;
+        border-radius: 10px;
+        color: #919191;
+        box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
+
+        .highlight {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .progress {
+            background-color: #111;
+            margin-bottom: 0px;
+            margin-top: 7px;
+            height: 35px;
+        }
     }
 }
 

@@ -2,30 +2,37 @@
     {{view "image-collection" content=content index=index}}
 </div>
 
-<div class="controls-container">
 {{#if isProcessing}}
-    <div class="progress-bar-container">
-        <div class="progress-fill" {{bind-attr style=progressFillStyle}}></div>
-    </div>
-{{/if}}
+    <div class="progress-bar-background">
+        <div class="progress-bar-content">
+            Processing <span class="highlight">{{number-format pixelsProcessed}}</span> of <span class="highlight">{{ number-format pixelCount}}</span> pixels.
 
-    <div {{action "toggleTEXTp"}} {{bind-attr class=":btn TEXTp:btn-success:btn-default"}}>
-        TEXTp
-    </div>
-
-{{#if isPaginated}}
-    <div class="pagination-container">
-        <span class="index">
-            <strong>{{ current }}</strong> of <strong>{{ total }}</strong>
-        </span>
-
-        <div {{action "previous"}} {{bind-attr class=":btn :btn-default isPreviousDisabled:disabled"}}>
-            <span class="glyphicon glyphicon-chevron-left"></span>
-        </div>
-
-        <div {{action "next"}} {{bind-attr class=":btn :btn-default isNextDisabled:disabled"}}">
-            <span class="glyphicon glyphicon-chevron-right"></span>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" {{bind-attr style=progressFillStyle}}>
+                </div>
+            </div>
         </div>
     </div>
+{{else}}
+    <div class="controls-container">
+        <div {{action "toggleTEXTp"}} {{bind-attr class=":btn TEXTp:btn-success:btn-default"}}>
+            TEXTp
+        </div>
+
+        {{#if isPaginated}}
+            <div class="pagination-container">
+                <span class="index">
+                    <strong>{{ current }}</strong> of <strong>{{ total }}</strong>
+                </span>
+
+                <div {{action "previous"}} {{bind-attr class=":btn :btn-default isPreviousDisabled:disabled"}}>
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </div>
+
+                <div {{action "next"}} {{bind-attr class=":btn :btn-default isNextDisabled:disabled"}}">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </div>
+            </div>
+        {{/if}}
+    </div>
 {{/if}}
-</div>

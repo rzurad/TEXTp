@@ -1,4 +1,3 @@
-//TODO: Build logic for displaying progress bar, make asciify chunk process
 import Ember from "ember";
 import asciify from "../asciify";
 
@@ -43,6 +42,8 @@ ImagesController = Ember.ArrayController.extend({
 
     progressFillStyle: '',
     percentProcessed: 0,
+    pixelCount: 0,
+    pixelsProcessed: 0,
     isProcessing: false,
     isLoading: false,
 
@@ -50,22 +51,24 @@ ImagesController = Ember.ArrayController.extend({
         if (!this.get('isLoading')) {
             var instance = this,
                 content = this.get('content'),
-                pixelCount = content.reduce(function (previous, current) {
-                    return previous + current.height * current.width;
-                }, 0),
-                pixelsProcessed = 0,
                 imagesProcessed = 0,
                 imageCount = content.get('length');
 
-            var start = performance.now();
+            instance.set('pixelsProcessed', 0);
+            instance.set('pixelCount', content.reduce(function (previous, current) {
+                    return previous + current.height * current.width;
+            }, 0));
 
             (function processImage(index) {
-                var file = content[index];
+                var file = content[index],
+                    pc = instance.get('pixelCount'),
+                    pp = instance.get('pixelsProcessed');
 
                 asciify(file.context, function (count) {
-                    instance.set('percentProcessed', (pixelsProcessed + count) / pixelCount * 100);
+                    instance.set('pixelsProcessed', pp + count);
+                    instance.set('percentProcessed', Math.ceil((pp + count) / pc * 100));
                 }, function (total) {
-                    pixelsProcessed += total;
+                    instance.set('pixelsProcessed', pp + total);
                     imagesProcessed++;
 
                     set(file, 'TEXTp', file.context.canvas.toDataURL('image/png'));
@@ -74,7 +77,6 @@ ImagesController = Ember.ArrayController.extend({
                     if (imagesProcessed === imageCount) {
                         instance.set('isProcessing', false);
                         instance.set('percentProcessed', 0);
-                        console.log(performance.now() - start);
                     } else {
                         Ember.run.later(processImage,  index + 1, 0);
                     }
