@@ -6,24 +6,27 @@ body,
 .application-outlet {
     height: 100%;
     width: 100%;
+    position: absolute;
 }
 
 .application,
 .images-viewport {
-    transition-property: border;
-    transition-duration: 0.3s;
-    border: 0px solid #bce8f1;
+    background: #bce8f1;
 
     &.hovering {
-        border-width: 8px;
-
         .alert.alert-info {
             opacity: 1;
+        }
+
+        .application-outlet {
+            opacity: .7;
         }
     }
 }
 
 .application-outlet {
+    transition-duration: 0.3s;
+    transition-property: opacity;
     background: radial-gradient(ellipse at center, #383838 0%,#2e2e2e 40%,#212121 100%);
     background-position: center center;
     background-repeat: no-repeat;
