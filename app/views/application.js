@@ -36,6 +36,14 @@ ApplicationView = Ember.View.extend({
         }
     }.observes('controller.noImagesFound'),
 
+    observeIsProcessing: function () {
+        console.log('wtf?');
+
+        if (this.$()) {
+            this.$().toggleClass('processing');
+        }
+    }.observes('controller.isProcessing'),
+
     observeIsHovering: function () {
         if (this.$()) {
             this.$().toggleClass('hovering');

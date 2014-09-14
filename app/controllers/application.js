@@ -4,6 +4,12 @@ var ApplicationController = Ember.Controller.extend({
         needs: ['images'],
         noImagesFound: false,
 
+        isProcessing: false,
+
+        observesIsProcessing: function () {
+            this.set('isProcessing', this.get('controllers.images.isProcessing'));
+        }.observes('controllers.images.isProcessing'),
+
         notifyNoImagesFound: function () {
             this.set('noImagesFound', true);
 
@@ -52,6 +58,11 @@ var ApplicationController = Ember.Controller.extend({
                             }
                         }
                     };
+
+                // if the images controller is currently processing, don't do anything
+                if (instance.get('controllers.images.isProcessing')) {
+                    return;
+                }
 
                 // DataTransferItemList object has no `forEach` method :(
                 Ember.ArrayPolyfills.forEach.call(files, function readEntries(file) {

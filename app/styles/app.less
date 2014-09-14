@@ -22,6 +22,16 @@ body,
             opacity: .7;
         }
     }
+
+    &.processing.hovering {
+        .alert.alert-info {
+            opacity: 0;
+        }
+
+        .application-outlet {
+            opacity: 1;
+        }
+    }
 }
 
 .application-outlet {
@@ -102,6 +112,10 @@ body,
         }
 
         .progress {
+            .progress-bar {
+                transition: width 0.2s ease;
+            }
+
             background-color: #111;
             margin-bottom: 0px;
             margin-top: 7px;
