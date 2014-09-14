@@ -55,39 +55,54 @@ function getPixel(imageData, x, y) {
 function asciify(context, onProgress, onComplete) {
     var height = +Ember.$(context.canvas).attr('height'),
         width = +Ember.$(context.canvas).attr('width'),
+        total = height * width,
         original = context.getImageData(0, 0, width, height),
-        ascii = context.createImageData(width, height),
-        x, y;
+        ascii = context.createImageData(width, height);
 
     onProgress = onProgress || Ember.K;
     onComplete = onComplete || Ember.K;
 
-    for (y = 0; y < height; y++) {
-        for (x = 0; x < width; x++) {
-            var current = getPixel(original, x, y),
-                offset = {
-                    x: x % size,
-                    y: y % size
-                },
-                mosaic = getPixel(original, x - offset.x, y - offset.y),
-                luma = 0.2126 * mosaic['float'].r + 0.7152 * mosaic['float'].g + 0.0722 * mosaic['float'].b,
-                range = (1 / (charcount - 1.0)),
-                fontOffset = size * Math.floor(luma / range),
-                yRow = Math.floor(fontOffset / fontmapSize),
-                offsetdeux = {
-                    x: offset.x + (fontOffset - (fontmapSize * yRow)),
-                    y: offset.y + (size * yRow)
-                },
-                character = getPixel(fontmap, offsetdeux.x, offsetdeux.y);
+    (function convertLine(y) {
+        Ember.run.later(function () {
+            var x = 0;
 
-            ascii.data[current.index.r] = toByte(character['float'].r * mosaic['float'].r);
-            ascii.data[current.index.g] = toByte(character['float'].g * mosaic['float'].g);
-            ascii.data[current.index.b] = toByte(character['float'].b * mosaic['float'].b);
-            ascii.data[current.index.a] = character['byte'].a;
-        }
-    }
+            for (; x < width; x++) {
+                var current = getPixel(original, x, y),
+                    offset = {
+                        x: x % size,
+                        y: y % size
+                    },
+                    mosaic = getPixel(original, x - offset.x, y - offset.y),
+                    luma = 0.2126 * mosaic['float'].r + 0.7152 * mosaic['float'].g + 0.0722 * mosaic['float'].b,
+                    range = (1 / (charcount - 1.0)),
+                    fontOffset = size * Math.floor(luma / range),
+                    yRow = Math.floor(fontOffset / fontmapSize),
+                    offsetdeux = {
+                        x: offset.x + (fontOffset - (fontmapSize * yRow)),
+                        y: offset.y + (size * yRow)
+                    },
+                    character = getPixel(fontmap, offsetdeux.x, offsetdeux.y);
 
-    context.putImageData(ascii, 0, 0);
+                ascii.data[current.index.r] = toByte(character['float'].r * mosaic['float'].r);
+                ascii.data[current.index.g] = toByte(character['float'].g * mosaic['float'].g);
+                ascii.data[current.index.b] = toByte(character['float'].b * mosaic['float'].b);
+                ascii.data[current.index.a] = character['byte'].a;
+            }
+
+            y++;
+
+            if (y < height) {
+                if (y % 10 === 0) {
+                    onProgress(y * width, total);
+                }
+
+                convertLine(y);
+            } else {
+                context.putImageData(ascii, 0, 0);
+                onComplete(total);
+            }
+        }, 0);
+    }(0));
 }
 
 $fontmapContainer = Ember.$([

@@ -14,7 +14,6 @@ ImagesController = Ember.ArrayController.extend({
 
     // "human readable" current viewing index
     current: function () {
-        console.log(this.get('index'));
         return this.get('index') + 1;
     }.property('index'),
 
@@ -51,31 +50,35 @@ ImagesController = Ember.ArrayController.extend({
         if (!this.get('isLoading')) {
             var instance = this,
                 content = this.get('content'),
-                /*
                 pixelCount = content.reduce(function (previous, current) {
-                    return previous + current.height + current.width;
+                    return previous + current.height * current.width;
                 }, 0),
-                */
-                processed = 0,
-                count = content.get('length');
+                pixelsProcessed = 0,
+                imagesProcessed = 0,
+                imageCount = content.get('length');
 
-            (function chunk(index) {
+            var start = performance.now();
+
+            (function processImage(index) {
                 var file = content[index];
 
-                asciify(file.context);
+                asciify(file.context, function (count) {
+                    instance.set('percentProcessed', (pixelsProcessed + count) / pixelCount * 100);
+                }, function (total) {
+                    pixelsProcessed += total;
+                    imagesProcessed++;
 
-                processed++;
-                instance.set('percentProcessed', processed / count * 100);
+                    set(file, 'TEXTp', file.context.canvas.toDataURL('image/png'));
+                    set(file, 'isProcessed', true);
 
-                set(file, 'TEXTp', file.context.canvas.toDataURL('image/png'));
-                set(file, 'isProcessed', true);
-
-                if (processed === count) {
-                    instance.set('isProcessing', false);
-                    instance.set('percentProcessed', 0);
-                } else {
-                    Ember.run.next(chunk, index + 1);
-                }
+                    if (imagesProcessed === imageCount) {
+                        instance.set('isProcessing', false);
+                        instance.set('percentProcessed', 0);
+                        console.log(performance.now() - start);
+                    } else {
+                        Ember.run.later(processImage,  index + 1, 0);
+                    }
+                });
             }(0));
         }
     }.observes('isLoading'),
