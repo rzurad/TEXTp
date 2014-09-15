@@ -14,8 +14,8 @@ ImageView = Ember.View.extend({
     template: Ember.Handlebars.compile([
         '<img class="save-target" />',
         '<div class="scale-container">',
-            '<div class="original"></div>',
             '<div class="ascii"></div>',
+            '<div class="original"></div>',
         '</div>'
     ].join('')),
 
