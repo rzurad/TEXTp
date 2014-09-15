@@ -5,9 +5,11 @@ var ImageView;
 ImageView = Ember.View.extend({
     classNames: ['image-container'],
     template: Ember.Handlebars.compile([
-        '<div class="original"></div>',
-        '<div class="ascii"></div>',
-        '<img class="save-target" />'
+        '<img class="save-target" />',
+        '<div class="scale-container">',
+            '<div class="original"></div>',
+            '<div class="ascii"></div>',
+        '</div>'
     ].join('')),
 
     onFileProcessed: function () {

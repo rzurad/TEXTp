@@ -37,8 +37,6 @@ ApplicationView = Ember.View.extend({
     }.observes('controller.noImagesFound'),
 
     observeIsProcessing: function () {
-        console.log('wtf?');
-
         if (this.$()) {
             this.$().toggleClass('processing');
         }
@@ -64,7 +62,7 @@ ApplicationView = Ember.View.extend({
     }),
 
     drop: intercept(function (e) {
-        var items = e.dataTransfer.items;
+        var items = e.dataTransfer.items || e.dataTransfer.files;
 
         this.set('isHovering', false);
 

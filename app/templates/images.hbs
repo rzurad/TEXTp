@@ -15,8 +15,17 @@
     </div>
 {{else}}
     <div class="controls-container">
-        <div {{action "toggleTEXTp"}} {{bind-attr class=":btn TEXTp:btn-success:btn-default"}}>
+        <div {{action "toggleTEXTp"}} {{bind-attr class=":btn :btn-success showTEXTp:active"}}>
             TEXTp
+        </div>
+
+        <div class="btn-group" data-toggle="buttons">
+            <label {{action "toggleViewMode"}} {{bind-attr class=":btn :btn-success showFitView:active"}}>
+                <input type="radio" name="view-modes" id="fit"> Fit
+            </label>
+            <label {{action "toggleViewMode"}} {{bind-attr class=":btn :btn-success showFitView::active"}}>
+                <input type="radio" name="view-modes" id="full"> Full
+            </label>
         </div>
 
         {{#if isPaginated}}

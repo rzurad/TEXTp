@@ -9,7 +9,10 @@ ImagesController = Ember.ArrayController.extend({
     index: 0,
 
     // show TEXTp image
-    TEXTp: true,
+    showTEXTp: true,
+
+    // show images in 'fit' mode (false for 'full' mode)
+    showFitView: true,
 
     // "human readable" current viewing index
     current: function () {
@@ -127,7 +130,16 @@ ImagesController = Ember.ArrayController.extend({
     actions: {
         // toggle between TEXTp and the original image
         toggleTEXTp: function () {
-            this.toggleProperty('TEXTp');
+            this.toggleProperty('showTEXTp');
+        },
+
+        // toggle between:
+        //  'fit' mode: where the images are centered and scaled to fit within
+        //      the viewport
+        //  'full' mode: image is shown at full size and the user can click-drag
+        //      with the mouse to move the image around
+        toggleViewMode: function () {
+            this.toggleProperty('showFitView');
         },
 
         // attempt to slide to previous image
