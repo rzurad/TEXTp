@@ -47,9 +47,22 @@ ImageView = Ember.View.extend({
     },
 
     onPositionChange: function () {
-        var position = this.get('position');
+        var position = this.get('position'),
+            $scaleContainer = this.$('.scale-container'),
+            isFullWidthVisible = this.$().width() >= this.get('content.width'),
+            isFullHeightVisible = this.$().height() >= this.get('content.height');
 
-        this.$('.scale-container').css({ left: position[0], top: position[1] });
+        if (!isFullWidthVisible) {
+            $scaleContainer.css({ 
+                left: position[0]
+            });
+        }
+
+        if (!isFullHeightVisible) {
+            $scaleContainer.css({
+                top: position[1]
+            });
+        }
     }.observes('position'),
 
     onDragImage: function (e) {
@@ -63,29 +76,68 @@ ImageView = Ember.View.extend({
             left = position[0] - delta[0],
             top = position[1] - delta[1];
 
-
-        if (vHeight >= height) {
-            delta[1] = 0;
-        } else {
-            if (top < vHeight - height || top > 0) {
+        // only do anything with repositioning the image if at least one
+        // dimension falls off the viewport
+        if (vHeight < height || vWidth < width) {
+            // if height is completely visible or the new destination will scroll
+            // it past the image's height, don't move the height
+            if (vHeight >= height || (top < vHeight - height || top > 0)) {
                 delta[1] = 0;
             }
-        }
 
-        if (vWidth >= width) {
-            delta[0] = 0;
-        } else {
-            if (left < vWidth - width || left > 0) {
+            // if width is completely visible or the new destination will scroll
+            // it past the image's width, don't move the width
+            if (vWidth >= width || (left < vWidth - width || left > 0)) {
                 delta[0] = 0;
             }
-        }
 
-        this.set('lastMousePosition', [e.pageX, e.pageY]);
-        this.set('position', [position[0] - delta[0], position[1] - delta[1]]);
+            this.set('lastMousePosition', [e.pageX, e.pageY]);
+            this.set('position', [position[0] - delta[0], position[1] - delta[1]]);
+        }
     },
 
     onResize: function () {
-        console.log('resize');
+        var $scaleContainer = this.$('.scale-container'),
+            vHeight = this.$().height(),
+            vWidth = this.$().width(),
+            position = this.get('position'),
+            height = this.get('content.height'),
+            width = this.get('content.width');
+
+        // set the correct inline styles for 'full' if needed
+        if (this.get('isDraggable')) {
+            if (vWidth >= width) {
+                $scaleContainer.css({
+                    marginLeft: -(width / 2),
+                    left: '50%'
+                });
+            } else {
+                $scaleContainer.css({
+                    marginLeft: 0,
+                    left: position[0]
+                });
+            }
+
+            if (vHeight >= height) {
+                $scaleContainer.css({
+                    marginTop: -(height / 2),
+                    top: '50%'
+                });
+            } else {
+                $scaleContainer.css({
+                    marginTop: 0,
+                    top: position[1]
+                });
+            }
+        } else {
+            // remove inline styles for 'fit' view
+            $scaleContainer.css({
+                marginTop: '',
+                marginLeft: '',
+                left: '',
+                top: ''
+            });
+        }
     },
 
     init: function () {
@@ -133,6 +185,8 @@ ImageView = Ember.View.extend({
                 height: this.get('content.height')
             });
         }
+
+        this.onResize();
     }.observes('parentView.controller.showFitView'),
 
     onFileProcessed: function () {
