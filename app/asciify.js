@@ -92,7 +92,7 @@ function asciify(context, onProgress, onComplete) {
             y++;
 
             if (y < height) {
-                if (y % 10 === 0) {
+                if (y % 100 === 0) {
                     onProgress(y * width, total);
                 }
 
