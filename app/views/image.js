@@ -84,6 +84,10 @@ ImageView = Ember.View.extend({
         this.set('position', [position[0] - delta[0], position[1] - delta[1]]);
     },
 
+    onResize: function () {
+        console.log('resize');
+    },
+
     init: function () {
         this._super();
 
@@ -92,6 +96,15 @@ ImageView = Ember.View.extend({
         // onDragImage handler is bound to the correct View so that it can be
         // unbound later and have access to view variables.
         this.onDragImage = this.onDragImage.bind(this);
+        this.onResize = this.onResize.bind(this);
+
+        Ember.$(window).on('resize', this.onResize);
+    },
+
+    destroy: function () {
+        this._super();
+
+        Ember.$(window).off('resize', this.onResize);
     },
 
     onIsDraggingChange: function () {
