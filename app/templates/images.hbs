@@ -15,16 +15,16 @@
     </div>
 {{else}}
     <div class="controls-container">
-        <div {{action "toggleTEXTp"}} {{bind-attr class=":btn :btn-success showTEXTp:active"}}>
+        <div {{action "toggleTEXTp"}} {{bind-attr class=":btn showTEXTp:btn-success:btn-default"}}>
             TEXTp
         </div>
 
         <div class="btn-group" data-toggle="buttons">
-            <label {{action "toggleViewMode"}} {{bind-attr class=":btn :btn-success showFitView:active"}}>
-                <input type="radio" name="view-modes" id="fit"> Zoom to fit 
+            <label {{action "toggleViewMode"}} {{bind-attr class=":btn showFitView:btn-success:btn-default"}}>
+                <input type="radio" name="view-modes" id="fit"> Fit to view 
             </label>
-            <label {{action "toggleViewMode"}} {{bind-attr class=":btn :btn-success showFitView::active"}}>
-                <input type="radio" name="view-modes" id="full"> Zoom to 100%
+            <label {{action "toggleViewMode"}} {{bind-attr class=":btn showFitView:btn-default:btn-success"}}>
+                <input type="radio" name="view-modes" id="full"> Full-size
             </label>
         </div>
 
