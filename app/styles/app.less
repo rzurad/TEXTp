@@ -170,14 +170,23 @@ body,
     background-position: center;
 }
 
-.full .scale-container {
-    position: absolute;
-    cursor: move;
+.full {
+    .image-container {
+        cursor: move;
 
-    div {
-        position:absolute;
-        height: 100%;
-        width: 100%;
+        &.is-locked {
+            cursor: default;
+        }
+    }
+
+    .scale-container {
+        position: absolute;
+
+        div {
+            position:absolute;
+            height: 100%;
+            width: 100%;
+        }
     }
 }
 
@@ -215,6 +224,7 @@ body,
     width: 100%;
     opacity: 0;
     top: 0;
+    z-index: 100;
 }
 
 .controls-container {
