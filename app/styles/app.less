@@ -238,11 +238,52 @@ body,
 
 .controls-container {
     background-color: @grayBackground;
+    color: #777;
     border-top: 1px solid @grayBackgroundBorder;
     position: fixed;
     bottom: 0;
     width: 100%;
-    padding: 10px;
+    height: 55px;
+
+    .control {
+        display: inline-block;
+        text-align:center;
+        vertical-align: middle;
+        padding: 6px 21px;
+        font-size: 14px;
+        line-height: 3;
+        float: right;
+    }
+
+    strong {
+        color: #fff;
+    }
+
+    .button {
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+
+        &.disabled {
+            cursor: default;
+            color: #333;
+
+            &:hover {
+                color: #333;
+            }
+        }
+
+        &:hover {
+            color: #fff;
+        }
+
+        &.active {
+            color: #fff;
+            background-color: @grayBackgroundBorder;
+        }
+    }
 
     .pagination-container {
         position: absolute;

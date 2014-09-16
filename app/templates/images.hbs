@@ -15,32 +15,29 @@
     </div>
 {{else}}
     <div class="controls-container">
-        <div {{action "toggleTEXTp"}} {{bind-attr class=":btn showTEXTp:btn-success:btn-default"}}>
+        <div {{action "toggleTEXTp"}} {{bind-attr class=":control :button showTEXTp:active"}}>
             TEXTp
         </div>
 
-        <div class="btn-group" data-toggle="buttons">
-            <label {{action "toggleViewMode"}} {{bind-attr class=":btn showFitView:btn-success:btn-default"}}>
-                <input type="radio" name="view-modes" id="fit"> Fit to view 
-            </label>
-            <label {{action "toggleViewMode"}} {{bind-attr class=":btn showFitView:btn-default:btn-success"}}>
-                <input type="radio" name="view-modes" id="full"> Full-size
-            </label>
+        <div {{action "toggleViewMode"}} {{bind-attr class=":control :button showFitView::active"}}>
+            Full-size
         </div>
 
+        <div {{action "toggleViewMode"}} {{bind-attr class=":control :button showFitView:active"}}>
+            Fit to view 
+        </div>
+
+        <span class="control index">
+            <strong>{{ current }}</strong> of <strong>{{ total }}</strong>
+        </span>
+
         {{#if isPaginated}}
-            <div class="pagination-container">
-                <span class="index">
-                    <strong>{{ current }}</strong> of <strong>{{ total }}</strong>
-                </span>
+            <div {{action "next"}} {{bind-attr class=":control :button isNextDisabled:disabled"}}">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </div>
 
-                <div {{action "previous"}} {{bind-attr class=":btn :btn-default isPreviousDisabled:disabled"}}>
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                </div>
-
-                <div {{action "next"}} {{bind-attr class=":btn :btn-default isNextDisabled:disabled"}}">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                </div>
+            <div {{action "previous"}} {{bind-attr class=":control :button isPreviousDisabled:disabled"}}>
+                <span class="glyphicon glyphicon-chevron-left"></span>
             </div>
         {{/if}}
     </div>
