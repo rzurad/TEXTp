@@ -1,6 +1,7 @@
-//TODO: See about making the fontmap either embedded in the source as base64 or
-//load it via XHR to avoid needed to insert things into the DOM
 import Ember from "ember";
+import ParallelCb from "./parallel-cb";
+/* global global */ // <--- yeah, it's odd, but it's to make jshint behave with
+                    // the way Parallel.js and Web Workers work.
 
 var $fontmapContainer,
     $fontmapImage,
@@ -52,57 +53,69 @@ function getPixel(imageData, x, y) {
     };
 }
 
-function asciify(context, onProgress, onComplete) {
+function asciifyWorker(images) {
+    var original = images.original,
+        ascii = images.ascii,
+        total = original.height * original.width,
+
+        size = global.ascii.size,
+        charcount = global.ascii.charcount,
+        fontmapSize = global.ascii.fontmapSize,
+        fontmap = global.ascii.fontmap,
+
+        x, y;
+        
+    for (y = 0; y < original.height; y++) {
+        for (x = 0; x < original.width; x++) {
+            var current = getPixel(original, x, y),
+                offset = {
+                    x: x % size,
+                    y: y % size
+                },
+                mosaic = getPixel(original, x - offset.x, y - offset.y),
+                luma = 0.2126 * mosaic['float'].r + 0.7152 * mosaic['float'].g + 0.0722 * mosaic['float'].b,
+                range = (1 / (charcount - 1.0)),
+                fontOffset = size * Math.floor(luma / range),
+                yRow = Math.floor(fontOffset / fontmapSize),
+                offsetdeux = {
+                    x: offset.x + (fontOffset - (fontmapSize * yRow)),
+                    y: offset.y + (size * yRow)
+                },
+                character = getPixel(fontmap, offsetdeux.x, offsetdeux.y);
+
+            ascii.data[current.index.r] = toByte(character['float'].r * mosaic['float'].r);
+            ascii.data[current.index.g] = toByte(character['float'].g * mosaic['float'].g);
+            ascii.data[current.index.b] = toByte(character['float'].b * mosaic['float'].b);
+            ascii.data[current.index.a] = character['byte'].a;
+        }
+
+        if (y % 100 === 0) {
+            console.log('progress', y * original.width, total);
+        }
+    }
+
+    return ascii;
+}
+
+function asciify(context, onProgress) {
     var height = +Ember.$(context.canvas).attr('height'),
         width = +Ember.$(context.canvas).attr('width'),
-        total = height * width,
         original = context.getImageData(0, 0, width, height),
         ascii = context.createImageData(width, height);
 
     onProgress = onProgress || Ember.K;
-    onComplete = onComplete || Ember.K;
 
-    (function convertLine(y) {
-        Ember.run.later(function () {
-            var x = 0;
-
-            for (; x < width; x++) {
-                var current = getPixel(original, x, y),
-                    offset = {
-                        x: x % size,
-                        y: y % size
-                    },
-                    mosaic = getPixel(original, x - offset.x, y - offset.y),
-                    luma = 0.2126 * mosaic['float'].r + 0.7152 * mosaic['float'].g + 0.0722 * mosaic['float'].b,
-                    range = (1 / (charcount - 1.0)),
-                    fontOffset = size * Math.floor(luma / range),
-                    yRow = Math.floor(fontOffset / fontmapSize),
-                    offsetdeux = {
-                        x: offset.x + (fontOffset - (fontmapSize * yRow)),
-                        y: offset.y + (size * yRow)
-                    },
-                    character = getPixel(fontmap, offsetdeux.x, offsetdeux.y);
-
-                ascii.data[current.index.r] = toByte(character['float'].r * mosaic['float'].r);
-                ascii.data[current.index.g] = toByte(character['float'].g * mosaic['float'].g);
-                ascii.data[current.index.b] = toByte(character['float'].b * mosaic['float'].b);
-                ascii.data[current.index.a] = character['byte'].a;
-            }
-
-            y++;
-
-            if (y < height) {
-                if (y % 100 === 0) {
-                    onProgress(y * width, total);
-                }
-
-                convertLine(y);
-            } else {
-                context.putImageData(ascii, 0, 0);
-                onComplete(total);
-            }
-        }, 0);
-    }(0));
+    return (new ParallelCb({ original: original, ascii: ascii }, {
+        env: {
+            size: size,
+            charcount: charcount,
+            fontmap: fontmap,
+            fontmapSize: fontmapSize
+        },
+        envNamespace: 'ascii'
+    })).require(toByte, toFloat, getPixel).spawn(asciifyWorker).then(function (ascii) {
+        context.putImageData(ascii, 0, 0);
+    });
 }
 
 $fontmapContainer = Ember.$([

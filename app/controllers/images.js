@@ -71,7 +71,7 @@ ImagesController = Ember.ArrayController.extend({
                 asciify(file.context, function (count) {
                     instance.set('pixelsProcessed', pp + count);
                     instance.set('percentProcessed', Math.ceil((pp + count) / pc * 100));
-                }, function (total) {
+                }).then(function (total) {
                     instance.set('pixelsProcessed', pp + total);
                     imagesProcessed++;
 
@@ -82,7 +82,7 @@ ImagesController = Ember.ArrayController.extend({
                         instance.set('isProcessing', false);
                         instance.set('percentProcessed', 0);
                     } else {
-                        Ember.run.later(processImage,  index + 1, 0);
+                        processImage(index + 1);
                     }
                 });
             }(0));

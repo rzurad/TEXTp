@@ -1,9 +1,9 @@
 import Ember from "ember";
 
 var IMAGES = [
-        '/assets/images/examples/fallout-3.png',
-        '/assets/images/examples/mass-effect-3.jpg',
-        '/assets/images/examples/titanfall.png'
+        '/assets/images/backgrounds/fallout-3.png',
+        '/assets/images/backgrounds/mass-effect-3.jpg',
+        '/assets/images/backgrounds/titanfall.png'
     ],
     ApplicationView;
 
