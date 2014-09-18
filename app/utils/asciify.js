@@ -1,7 +1,6 @@
 import Ember from "ember";
-import ParallelCb from "./parallel-cb";
-/* global global */ // <--- yeah, it's odd, but it's to make jshint behave with
-                    // the way Parallel.js and Web Workers work.
+/* global Parallel, global */ // <--- yeah, it's odd, but it's to make jshint behave with
+                              // the way Parallel.js and Web Workers work.
 
 var $fontmapContainer,
     $fontmapImage,
@@ -89,12 +88,13 @@ function asciifyWorker(images) {
             ascii.data[current.index.a] = character['byte'].a;
         }
 
-        if (y % 100 === 0) {
-            console.log('progress', y * original.width, total);
-        }
+        global.send('progress', {
+            processed: original.width,
+            total: total
+        });
     }
 
-    return ascii;
+    global.send('complete', ascii);
 }
 
 function asciify(context, onProgress) {
@@ -105,7 +105,10 @@ function asciify(context, onProgress) {
 
     onProgress = onProgress || Ember.K;
 
-    return (new ParallelCb({ original: original, ascii: ascii }, {
+    return (new Parallel({ original: original, ascii: ascii }, {
+        onMessage: function (msg) {
+            onProgress(msg.data);
+        },
         env: {
             size: size,
             charcount: charcount,
@@ -114,6 +117,7 @@ function asciify(context, onProgress) {
         },
         envNamespace: 'ascii'
     })).require(toByte, toFloat, getPixel).spawn(asciifyWorker).then(function (ascii) {
+        console.log(ascii);
         context.putImageData(ascii, 0, 0);
     });
 }

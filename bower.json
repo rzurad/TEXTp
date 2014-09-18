@@ -10,7 +10,7 @@
     "ember-cli-test-loader": "rwjblue/ember-cli-test-loader#0.0.4",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.2",
     "numeral": "~1.5.3",
-    "paralleljs": "*"
+    "paralleljs": "git@github.com:rzurad/parallel.js.git#scribbles"
   },
   "devDependencies": {
     "bootstrap": "~3.2.0"

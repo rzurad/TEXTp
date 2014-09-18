@@ -1,5 +1,5 @@
 import Ember from "ember";
-import asciify from "../asciify";
+import asciify from "../utils/asciify";
 
 var set = Ember.set,
     ImagesController;
@@ -58,7 +58,6 @@ ImagesController = Ember.ArrayController.extend({
                 imageCount = content.get('length');
 
             instance.set('index', 0);
-            instance.set('pixelsProcessed', 0);
             instance.set('pixelCount', content.reduce(function (previous, current) {
                     return previous + current.height * current.width;
             }, 0));
@@ -68,19 +67,23 @@ ImagesController = Ember.ArrayController.extend({
                     pc = instance.get('pixelCount'),
                     pp = instance.get('pixelsProcessed');
 
-                asciify(file.context, function (count) {
-                    instance.set('pixelsProcessed', pp + count);
-                    instance.set('percentProcessed', Math.ceil((pp + count) / pc * 100));
-                }).then(function (total) {
-                    instance.set('pixelsProcessed', pp + total);
+                asciify(file.context, function (data) {
+                    pp += data.processed;
+                    instance.set('pixelsProcessed', pp);
+                    instance.set('percentProcessed', Math.ceil(pp / pc * 100));
+                }).then(function () {
                     imagesProcessed++;
 
                     set(file, 'TEXTp', file.context.canvas.toDataURL('image/png'));
                     set(file, 'isProcessed', true);
+                    instance.set('pixelsProcessed', pp);
+                    instance.set('percentProcessed', Math.ceil(pp / pc * 100));
 
                     if (imagesProcessed === imageCount) {
                         instance.set('isProcessing', false);
                         instance.set('percentProcessed', 0);
+                        instance.set('pixelsProcessed', 0);
+                        instance.set('pixelCount', 0);
                     } else {
                         processImage(index + 1);
                     }
