@@ -194,6 +194,16 @@ ImageView = Ember.View.extend({
         Ember.$(window).on('resize', this.onResize);
     },
 
+    // if the element is being inserted and the file has been processed
+    // (that is, you processed files, hit the back button, and then hit
+    // the forward button), make sure to reinsert the processed content
+    // into the view template after it renders
+    didInsertElement: function () {
+        if (this.get('content.isProcessed')) {
+            this.onFileProcessed();
+        }
+    },
+
     destroy: function () {
         this._super();
 
