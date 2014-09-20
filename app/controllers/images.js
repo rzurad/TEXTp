@@ -101,7 +101,18 @@ ImagesController = Ember.ArrayController.extend({
         }
     }.observes('isLoading'),
 
-    loadImages: function () {
+    loadUrls: function (urls) {
+        var images = [],
+            processed = 0;
+
+        for (; processed < urls.length; processed++) {
+            Ember.$('<img>').load(function () {
+                console.log(this);
+            }).attr('src', urls[processed]);
+        }
+    },
+
+    loadFiles: function () {
         var instance = this,
             count = instance.get('content.length'),
             loadCount = 0;
@@ -137,7 +148,7 @@ ImagesController = Ember.ArrayController.extend({
 
             reader.readAsDataURL(file);
         });
-    }.observes('content'),
+    },
 
     actions: {
         // toggle between TEXTp and the original image

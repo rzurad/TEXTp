@@ -1,5 +1,5 @@
 <div class="splash-content">
-    <h2>Image TEXTp Filter</h2>
+    <h2>TEXTp Image Filter</h2>
 
     <p>
         Convert any image into <a target="_new" href="http://youtube-global.blogspot.com/2010/03/textp-saves-youtube-bandwidth-money.html">TEXTp</a> ascii art.<br>
@@ -7,12 +7,18 @@
     </p>
 
     <div class="input-container">
-        <div class="btn btn-success btn-lg btn-block">Select or drag files from desktop!</div>
-        <input type="file" multiple />
+        <div class="btn btn-success btn-lg btn-block">Select or drag files from desktop</div>
+        <input class="input-file" type="file" multiple />
+    </div>
+
+    <hr>
+    <span class="or">or</span>
+
+    <div class="form-inputs">
+        <button {{action "importUrls"}} class="btn btn-success">Go</button>
     </div>
 
     <div class="about-footer">
         {{#link-to 'about' class="btn btn-link btn-block"}}what's all this, then?{{/link-to}}
     </div>
 </div>
-

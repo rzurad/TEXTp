@@ -1,98 +1,107 @@
 import Ember from "ember";
 
-var ApplicationController = Ember.Controller.extend({
-        needs: ['images'],
-        noImagesFound: false,
+var ApplicationController;
 
-        isProcessing: false,
+ApplicationController = Ember.Controller.extend({
+    needs: ['images'],
+    noImagesFound: false,
 
-        observesIsProcessing: function () {
-            this.set('isProcessing', this.get('controllers.images.isProcessing'));
-        }.observes('controllers.images.isProcessing'),
+    isProcessing: false,
 
-        notifyNoImagesFound: function () {
-            this.set('noImagesFound', true);
+    observesIsProcessing: function () {
+        this.set('isProcessing', this.get('controllers.images.isProcessing'));
+    }.observes('controllers.images.isProcessing'),
 
-            Ember.run.later(this, function () {
-                this.set('noImagesFound', false);
-            }, 3000);
+    notifyNoImagesFound: function () {
+        this.set('noImagesFound', true);
+
+        Ember.run.later(this, function () {
+            this.set('noImagesFound', false);
+        }, 3000);
+    },
+
+    actions: {
+        select: function (files) {
+            var images = [],
+                imagesController = this.get('controllers.images');
+
+            Ember.ArrayPolyfills.forEach.call(files, function (file) {
+                if (file.type.split('/')[0] === 'image') {
+                    images.push(file);
+                }
+            });
+
+            if (images.length) {
+                imagesController.set('content', images);
+                imagesController.loadFiles();
+
+                this.transitionToRoute('images');
+
+            } else {
+                this.notifyNoImagesFound();
+            }
         },
 
-        actions: {
-            select: function (files) {
-                var images = [];
+        dragEnter: function () {
+            this.set('noImagesFound', false);
+        },
 
-                Ember.ArrayPolyfills.forEach.call(files, function (file) {
-                    if (file.type.split('/')[0] === 'image') {
-                        images.push(file);
-                    }
-                });
+        drop: function (files) {
+            var instance = this,
+                images = [],
+                imagesController = instance.get('controllers.images'),
+                count = files.length,
+                processed = 0,
 
-                if (images.length) {
-                    this.get('controllers.images').set('content', images);
-                    this.transitionToRoute('images');
-                } else {
-                    this.notifyNoImagesFound();
-                }
-            },
+                tryComplete = function () {
+                    processed++;
 
-            dragEnter: function () {
-                this.set('noImagesFound', false);
-            },
+                    if (count === processed) {
+                        if (images.length) {
+                            imagesController.set('content', images);
+                            imagesController.loadFiles();
 
-            drop: function (files) {
-                var instance = this,
-                    images = [],
-                    count = files.length,
-                    processed = 0,
-
-                    tryComplete = function () {
-                        processed++;
-
-                        if (count === processed) {
-                            if (images.length) {
-                                instance.get('controllers.images').set('content', images);
-                                instance.transitionToRoute('images');
-                            } else {
-                                instance.notifyNoImagesFound();
-                            }
+                            instance.transitionToRoute('images');
+                        } else {
+                            instance.notifyNoImagesFound();
                         }
-                    };
+                    }
+                };
 
-                // if the images controller is currently processing, don't do anything
-                if (instance.get('controllers.images.isProcessing')) {
-                    return;
+            // if the images controller is currently processing, don't do anything
+            if (instance.get('isProcessing')) {
+                return;
+            }
+
+            // DataTransferItemList object has no `forEach` method :(
+            Ember.ArrayPolyfills.forEach.call(files, function readEntries(file) {
+                var entry = file;
+
+                if (file.getAsEntry) {
+                    entry = file.getAsEntry();
+                } else if (file.webkitGetAsEntry) {
+                    entry = file.webkitGetAsEntry();
                 }
 
-                // DataTransferItemList object has no `forEach` method :(
-                Ember.ArrayPolyfills.forEach.call(files, function readEntries(file) {
-                    var entry = file;
+                if (entry.isFile) {
+                    entry.file(function (file) {
+                        if (file.type.split('/')[0] === 'image') {
+                            images.push(file);
+                        }
 
-                    if (file.getAsEntry) {
-                        entry = file.getAsEntry();
-                    } else if (file.webkitGetAsEntry) {
-                        entry = file.webkitGetAsEntry();
-                    }
+                        tryComplete();
+                    });
+                } else if (entry.isDirectory) {
+                    entry.createReader().readEntries(function (entries) {
+                        count += entries.length;
+                        entries.forEach(readEntries);
 
-                    if (entry.isFile) {
-                        entry.file(function (file) {
-                            if (file.type.split('/')[0] === 'image') {
-                                images.push(file);
-                            }
-
-                            tryComplete();
-                        });
-                    } else if (entry.isDirectory) {
-                        entry.createReader().readEntries(function (entries) {
-                            count += entries.length;
-                            entries.forEach(readEntries);
-
-                            tryComplete();
-                        });
-                    }
-                });
-            }
+                        tryComplete();
+                    });
+                }
+            });
         }
-    });
+    }
+});
 
 export default ApplicationController;
