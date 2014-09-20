@@ -2,9 +2,7 @@ import Ember from "ember";
 /* global Parallel, global */ // <--- yeah, it's odd, but it's to make jshint behave with
                               // the way Parallel.js and Web Workers work.
 
-var $fontmapContainer,
-    $fontmapImage,
-    size = 8,
+var size = 8,
     charcount = 256,
     fontmapSize = size * Math.floor(Math.sqrt(charcount)),
     fontmap;
@@ -122,23 +120,11 @@ function asciify(context, onProgress) {
     });
 }
 
-$fontmapContainer = Ember.$([
-    '<div style="display: none;">',
-        '<canvas id="fontmap" height="128" width="128"></canvas>',
-    '</div>'
-].join(''));
-
-$fontmapImage = Ember.$('<img id="#fontmap-image"/>');
-$fontmapContainer.append($fontmapImage);
-
-$fontmapImage.load(function (e) {
-    var fontmapContext = Ember.$('#fontmap').get(0).getContext('2d');
+Ember.$('<img id="#fontmap-image"/>').load(function (e) {
+    var fontmapContext = Ember.$('<canvas id="fontmap" height="128" width="128"></canvas>').get(0).getContext('2d');
 
     fontmapContext.drawImage(Ember.$(e.target).get(0), 0, 0);
     fontmap = fontmapContext.getImageData(0, 0, 128, 128);
-});
-
-Ember.$('body').append($fontmapContainer);
-$fontmapImage.attr('src', TEXTpENV.fontmapURL);
+}).attr('src', TEXTpENV.fontmapURL);
 
 export default asciify;
