@@ -5,7 +5,15 @@
 {{#if isProcessing}}
     <div class="progress-bar-background">
         <div class="progress-bar-content">
-            Processed <span class="highlight">{{number-format pixelsProcessed}}</span> of <span class="highlight">{{ number-format pixelCount}}</span> pixels.
+            {{#if isLoading}}
+                Loading images...
+            {{else}}
+                {{#if isDrawing}}
+                    Drawing image...
+                {{else}}
+                    Processed <span class="highlight">{{number-format pixelsProcessed}}</span> of <span class="highlight">{{ number-format pixelCount}}</span> pixels.
+                {{/if}}
+            {{/if}}
 
             <div class="progress">
                 <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" {{bind-attr style=progressFillStyle}}>

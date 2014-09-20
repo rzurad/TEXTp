@@ -49,6 +49,7 @@ ImagesController = Ember.ArrayController.extend({
     pixelsProcessed: 0,
     isProcessing: false,
     isLoading: false,
+    isDrawing: false,
 
     processImages: function () {
         if (!this.get('isLoading')) {
@@ -72,21 +73,29 @@ ImagesController = Ember.ArrayController.extend({
                     instance.set('pixelsProcessed', pp);
                     instance.set('percentProcessed', Math.ceil(pp / pc * 100));
                 }).then(function () {
-                    imagesProcessed++;
-
-                    set(file, 'TEXTp', file.context.canvas.toDataURL('image/png'));
-                    set(file, 'isProcessed', true);
+                    instance.set('isDrawing', true);
                     instance.set('pixelsProcessed', pp);
                     instance.set('percentProcessed', Math.ceil(pp / pc * 100));
 
-                    if (imagesProcessed === imageCount) {
-                        instance.set('isProcessing', false);
-                        instance.set('percentProcessed', 0);
-                        instance.set('pixelsProcessed', 0);
-                        instance.set('pixelCount', 0);
-                    } else {
-                        processImage(index + 1);
-                    }
+                    // ensure that the UI has drawn the 'isDrawing' template change,
+                    // otherwise the loader will not show the 'Drawing image...' text
+                    // while the ascii image is being dumped into its canvas context
+                    Ember.run.later(function () {
+                        set(file, 'TEXTp', file.context.canvas.toDataURL('image/png'));
+                        set(file, 'isProcessed', true);
+
+                        imagesProcessed++;
+                        instance.set('isDrawing', false);
+
+                        if (imagesProcessed === imageCount) {
+                            instance.set('isProcessing', false);
+                            instance.set('percentProcessed', 0);
+                            instance.set('pixelsProcessed', 0);
+                            instance.set('pixelCount', 0);
+                        } else {
+                            processImage(index + 1);
+                        }
+                    }, 25);
                 });
             }(0));
         }
