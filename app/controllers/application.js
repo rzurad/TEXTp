@@ -12,15 +12,20 @@ ApplicationController = Ember.Controller.extend({
         this.set('isProcessing', this.get('controllers.images.isProcessing'));
     }.observes('controllers.images.isProcessing'),
 
+    _hideNoImagesFound: function () {
+        this.set('noImagesFound', false);
+    },
+
     notifyNoImagesFound: function () {
         this.set('noImagesFound', true);
-
-        Ember.run.later(this, function () {
-            this.set('noImagesFound', false);
-        }, 3000);
+        Ember.run.debounce(this, this._hideNoImagesFound, 3000);
     },
 
     actions: {
+        noImagesFound: function () {
+            this.notifyNoImagesFound();
+        },
+
         select: function (files) {
             var images = [],
                 imagesController = this.get('controllers.images');

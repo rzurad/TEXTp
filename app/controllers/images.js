@@ -101,15 +101,36 @@ ImagesController = Ember.ArrayController.extend({
         }
     }.observes('isLoading'),
 
-    loadUrls: function (urls) {
-        var images = [],
+    loadUrls: function () {
+        var instance = this,
+            count = this.get('content.length'),
             processed = 0;
 
-        for (; processed < urls.length; processed++) {
+        this.set('isProcessing', true);
+        this.set('isLoading', true);
+
+        this.get('content').forEach(function (file) {
             Ember.$('<img>').load(function () {
-                console.log(this);
-            }).attr('src', urls[processed]);
-        }
+                var context,
+                    $canvas = Ember.$([
+                        '<canvas height="', this.height, '" width="', this.width, '"></canvas>'
+                    ].join(''));
+
+                processed++;
+
+                context = $canvas.get(0).getContext('2d');
+                context.drawImage(this, 0, 0);
+
+                set(file, 'height', this.height);
+                set(file, 'width', this.width);
+                set(file, 'original', this.src);
+                set(file, 'context', context);
+
+                if (processed === count) {
+                    instance.set('isLoading', false);
+                }
+            }).attr('src', file.original);
+        });
     },
 
     loadFiles: function () {
