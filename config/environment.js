@@ -8,6 +8,7 @@ module.exports = function (environment) {
             baseURL: '/',
             fontmapURL: '/assets/images/fontmap.png',
             locationType: 'auto',
+            gaTrackingCode: 'XX-XXXXXXXX-X',
             EmberENV: {
                 FEATURES: {
                     // Here you can enable experimental features on an ember canary build
