@@ -15,13 +15,14 @@ function intercept(fn) {
         e.stopPropagation();
         e.preventDefault();
 
-        return fn.apply(this, arguments);
+        return fn && fn.apply(this, arguments);
     };
 }
 
 ApplicationView = Ember.View.extend({
     classNames: ['application'],
     isHovering: false,
+
 
     backgroundImage: function () {
         return [
@@ -44,22 +45,20 @@ ApplicationView = Ember.View.extend({
     }.observes('controller.isProcessing'),
 
     observeIsHovering: function () {
-        if (this.$()) {
-            this.$().toggleClass('hovering');
-        }
+        this.$().toggleClass('hovering');
     }.observes('isHovering'),
 
-    dragOver: intercept(function () {
-        this.set('isHovering', true);
-    }),
+    dragOver: intercept(),
 
-    dragEnter: intercept(function () {
+    dragEnter: intercept(function (e) {
         this.set('isHovering', true);
         this.get('controller').send('dragEnter');
     }),
 
-    dragLeave: intercept(function () {
-        this.set('isHovering', false);
+    dragLeave: intercept(function (e) {
+        if (Ember.$(e.target).is('.drop-skrim')) {
+            this.set('isHovering', false);
+        }
     }),
 
     drop: intercept(function (e) {
