@@ -1,4 +1,4 @@
-TEXTp Image Filter v0.9.0
+TEXTp Image Filter
 ===
 A fun little Ember-CLI app that converts images into [TEXTp](http://youtube-global.blogspot.com/2010/03/textp-saves-youtube-bandwidth-money.html)&mdash;Youtube's 2010 April Fool's joke. Play with it [here](http://rzurad.github.io/TEXTp).
 
