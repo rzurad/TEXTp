@@ -7,7 +7,7 @@ module.exports = function (environment) {
             environment: environment,
             version: '0.9.0',
             baseURL: environment === 'production' ? '/TEXTp/' : '/',
-            locationType: 'auto',
+            locationType: 'hash',
             gaTrackingCode: 'XX-XXXXXXXX-X',
             EmberENV: {
                 FEATURES: {
