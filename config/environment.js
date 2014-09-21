@@ -6,8 +6,7 @@ module.exports = function (environment) {
     var ENV = {
             environment: environment,
             version: '0.9.0',
-            baseURL: '/',
-            fontmapURL: '/assets/images/fontmap.png',
+            baseURL: environment === 'production' ? '/TEXTp/' : '/',
             locationType: 'auto',
             gaTrackingCode: 'XX-XXXXXXXX-X',
             EmberENV: {

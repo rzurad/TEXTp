@@ -5,6 +5,7 @@ import Ember from "ember";
 var size = 8,
     charcount = 256,
     fontmapSize = size * Math.floor(Math.sqrt(charcount)),
+    fontmapURL = TEXTpENV.baseURL + 'assets/images/fontmap.png',
     fontmap;
 
 // convert a float between 0 and 1 into a byte between 0 and 255
@@ -124,6 +125,6 @@ Ember.$('<img id="#fontmap-image"/>').load(function (e) {
 
     fontmapContext.drawImage(Ember.$(e.target).get(0), 0, 0);
     fontmap = fontmapContext.getImageData(0, 0, 128, 128);
-}).attr('src', TEXTpENV.fontmapURL);
+}).attr('src', fontmapURL);
 
 export default asciify;

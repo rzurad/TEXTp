@@ -1,9 +1,10 @@
 import Ember from "ember";
 
-var IMAGES = [
-        '/assets/images/backgrounds/fallout-3.png',
-        '/assets/images/backgrounds/mass-effect-3.jpg',
-        '/assets/images/backgrounds/titanfall.png'
+var baseURL = TEXTpENV.baseURL,
+    IMAGES = [
+        baseURL + 'assets/images/backgrounds/fallout-3.png',
+        baseURL + 'assets/images/backgrounds/mass-effect-3.jpg',
+        baseURL + 'assets/images/backgrounds/titanfall.png'
     ],
     ApplicationView;
 
