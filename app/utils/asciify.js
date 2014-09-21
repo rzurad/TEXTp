@@ -20,6 +20,15 @@ function toFloat(x) {
     return x / 255;
 }
 
+function getMosaic(size, imageData, x, y) {
+    var offset = {
+            x: x % size,
+            y: y % size
+        };
+
+    return getPixel(imageData, x - offset.x, y - offset.y);
+}
+
 // get a pixel from the image at (x, y) coordinates.
 // returned object has the color information in bytes and floats, and the
 // index each color is located in the image data array
@@ -66,20 +75,20 @@ function asciifyWorker(images) {
     for (y = 0; y < original.height; y++) {
         for (x = 0; x < original.width; x++) {
             var current = getPixel(original, x, y),
-                offset = {
+                topleft = {
                     x: x % size,
                     y: y % size
                 },
-                mosaic = getPixel(original, x - offset.x, y - offset.y),
+                mosaic = getMosaic(size, original, x, y),
                 luma = 0.2126 * mosaic['float'].r + 0.7152 * mosaic['float'].g + 0.0722 * mosaic['float'].b,
                 range = (1 / (charcount - 1.0)),
                 fontOffset = size * Math.floor(luma / range),
                 yRow = Math.floor(fontOffset / fontmapSize),
-                offsetdeux = {
-                    x: offset.x + (fontOffset - (fontmapSize * yRow)),
-                    y: offset.y + (size * yRow)
+                fontmapLocation = {
+                    x: topleft.x + (fontOffset - (fontmapSize * yRow)),
+                    y: topleft.y + (size * yRow)
                 },
-                character = getPixel(fontmap, offsetdeux.x, offsetdeux.y);
+                character = getPixel(fontmap, fontmapLocation.x, fontmapLocation.y);
 
             ascii.data[current.index.r] = toByte(character['float'].r * mosaic['float'].r);
             ascii.data[current.index.g] = toByte(character['float'].g * mosaic['float'].g);
@@ -115,7 +124,7 @@ function asciify(context, onProgress) {
             fontmapSize: fontmapSize
         },
         envNamespace: 'ascii'
-    })).require(toByte, toFloat, getPixel).spawn(asciifyWorker).then(function (ascii) {
+    })).require(toByte, toFloat, getPixel, getMosaic).spawn(asciifyWorker).then(function (ascii) {
         context.putImageData(ascii, 0, 0);
     });
 }
