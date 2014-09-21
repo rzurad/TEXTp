@@ -24,13 +24,7 @@ ImageView = Ember.View.extend({
         return !this.get('showFitView') && !this.get('isLocked');
     }.property('showFitView'),
 
-    template: Ember.Handlebars.compile([
-        '<img class="save-target" />',
-        '<div class="scale-container">',
-            '<div class="ascii"></div>',
-            '<div class="original"></div>',
-        '</div>'
-    ].join('')),
+    templateName: 'image',
 
     dragEnter: _intercept,
     dragOver: _intercept,

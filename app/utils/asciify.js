@@ -115,7 +115,6 @@ function asciify(context, onProgress) {
         },
         envNamespace: 'ascii'
     })).require(toByte, toFloat, getPixel).spawn(asciifyWorker).then(function (ascii) {
-        console.log(ascii);
         context.putImageData(ascii, 0, 0);
     });
 }
