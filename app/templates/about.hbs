@@ -1,45 +1,31 @@
-<div class="about-content">
-    Who are you?
+<div class="about-container">
+    <div class="about-content">
+        <h3>What is TEXTp?</h3>
+        <p>
+            On April 1st, 2010 Youtube announced a new feature: <a target="_new" href="http://youtube-global.blogspot.com/2010/03/textp-saves-youtube-bandwidth-money.html">TEXTp streaming</a>. In an effort to save money on bandwidth, users could choose to stream their videos in a text-only mode, or TEXTp. In reality, it was a shader rendered by the video player locally that generated a colored ascii-art image of each frame. I loved the effect and was curious as to how they did it, so I did what any sensible person would do: I made my own shader in Flash that mimicked the TEXTp effect. A few years later I needed an excuse to make something fun, so I ported my old Flash shader to JavaScript and turned it into a fun little Ember application as an excuse to learn a thing or two. Unfortunately, this means that the port isn't a video shader and only works on images.
+        </p>
+        <p>
+            Perhaps if I need another excuse to make something fun, I'll try turn the JavaScript filter into a WebGL shader so the filter can leverage the GPU and work on videos again...
+        </p>
 
-    me, twitter, github
-    
-    What is TEXTp?
+        <h3>Are the images saved on a server somewhere?</h3>
+        <p>
+            No. All processing on the image happens in the web browser. Neither the original files or the asciified files are sent to any server at any time, so unfortunately you can not asciify an image and then send your URL to a friend to easily share it. While this would be a really cool feature, I have no intention of starting an image hosting service.
+        </p>
 
-    On April 1st, 2010 Youtube announced a new feature: a target="_new" href="http://youtube-global.blogspot.com/2010/03/textp-saves-youtube-bandwidth-money.html">TEXTp streaming</a>. In an effort to save money on bandwidth, users could choose to stream their videos in a text-only mode, or TEXTp. In reality, it was a shader rendered by the video player locally that generated a colored ascii-art image of each frame. I loved the effect and was curious as to how they did it, so I did what any sensible person would do: I made my own shader in Flash that mimicked the TEXTp effect. A few years later I needed an excuse to make something fun, so I ported my old Flash shader to JavaScript and turned it into a fun little Ember application as an excuse to learn a thing or two. Unfortunately, this means that the port isn't a video shader and only works on images.
+        <h3>Can I download the asciified images?</h3>
+        <p>
+            Yes. Right-click on the image and you should be able to "Save Image As".
+        </p>
 
-    Perhaps if I need another excuse to make something fun, I'll try turn the JavaScript filter into a WebGL shader so the filter can leverage the GPU and work on videos again...
+        <h3>"Save Image As" is disabled in my right-click menu</h3>
+        <p>
+            If the image is too large, you may not be able to save it via the right-click menu. You should still be able to copy the image and paste it into your favorite image maniupulation software (Photoshop, GIMP, MSPaint...) and save it there.
+        </p>
 
-    How does it work?
-
-    Drag and drop an image...
-
-    No, how does it *work*?
-
-    Describe how it works technically, links to github...
-
-    Why can't I give you a link to an image on the internet? Why do I have drag and drop?
-
-    Security reasons.
-
-    What files are supported?
-
-    Any image format that can be displayed in your browser should be supported.
-
-    What browsers/platforms are supported?
-
-    things...
-
-    Are the images saved on a server somewhere?
-
-    No. All processing on the image happens in the web browser. Neither the original files or the asciified files are sent to any server at any time, so unfortunately you can not asciify an image and then send your URL to a friend to easily share it. While this would be a really cool feature, I have no intention of starting an image hosting service.
-
-    Can I download the asciified images?
-
-    Yes...
-
-    "Save Image As" is disabled in my right-click menu
-
-    If the image is too large, you may not be able to save it via the right-click menu. You should still be able to copy the image and paste it into your favorite image maniupulation software (Photoshop, GIMP, MSPaint...) and save it there.
-
-    Something funny
+        <h3>Who are you?</h3>
+        <p>
+            My name is <a target="_new" href="http://github.com/rzurad">Rich</a>.
+        </p>
+    </div>
 </div>

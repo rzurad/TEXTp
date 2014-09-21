@@ -1,8 +1,15 @@
 @import "bower_components/bootstrap/less/bootstrap.less";
 
 @backgroundGradient: radial-gradient(ellipse at center, #383838 0%,#2e2e2e 40%,#212121 100%);
+@white: #fff;
+@black: #000;
+@textColor: #919191;
 @grayBackground: #222;
 @grayBackgroundBorder: #080808;
+
+.box-shadow {
+    box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
+}
 
 html,
 body,
@@ -11,6 +18,14 @@ body,
     height: 100%;
     width: 100%;
     position: absolute;
+}
+
+strong {
+    color: @white;
+}
+
+h2, h3 {
+    color: @white;
 }
 
 .application-outlet {
@@ -48,7 +63,7 @@ body,
 
 .application,
 .images-viewport {
-    background: #000;
+    background: @black;
 
     &.hovering {
         .alert.alert-info {
@@ -71,40 +86,49 @@ body,
     }
 }
 
-.about-content {
+.about-container {
     border-radius: 10px;
     padding: 20px;
     position: relative;
-    width: 70%;
-    min-width: 600px;
+    color: @textColor;
+    width: 750px;
     height: 90%;
+    max-height: 725px;
     background-color: @grayBackground;
-    box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
     margin-left: auto;
     margin-right: auto;
     top: 50%;
     transform: translateY(-50%);
+
+    .box-shadow();
+
+    .about-content {
+        overflow-y: auto;
+        height: 100%;
+        padding-right: 20px;
+    }
 }
 
 .splash-content {
     width: 350px;
     height: 220px;
-    position: absolute;
+    position: relative;
     top: 50%;
-    left: 50%;
-    margin-top: -110px;
-    margin-left: -175px;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translateY(-50%);
     background-color: @grayBackground;
-    padding: 0px 20px;
+    padding: 1px 20px;
     border-radius: 10px;
-    color: #919191;
-    box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
+    color: @textColor;
+
+    .box-shadow();
 
     .about-footer {
         margin-top: 13px;
         
         a {
-            color: #919191;
+            color: @textColor;
             font-size: 85%;
         }
     }
@@ -122,10 +146,6 @@ body,
         opacity: 0;
         cursor: pointer;
     }
-
-    h2 {
-        color: #fff;
-    }
 }
 
 .progress-bar-background {
@@ -139,19 +159,20 @@ body,
     .progress-bar-content {
         width: 500px;
         height: 107px;
-        position: absolute;
+        position: relative;;
+        transform: translateY(-50%);
         top: 50%;
-        left: 50%;
-        margin-top: -50px;
-        margin-left: -250px;
+        margin-left: auto;
+        margin-right: auto;
         background-color: @grayBackground;
         padding: 20px;
         border-radius: 10px;
-        color: #919191;
-        box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.1);
+        color: @textColor;
+
+        .box-shadow();
 
         .highlight {
-            color: #fff;
+            color: @white;
             font-weight: bold;
         }
 
@@ -270,10 +291,6 @@ body,
         float: right;
     }
 
-    strong {
-        color: #fff;
-    }
-
     .button {
         cursor: pointer;
         user-select: none;
@@ -291,11 +308,11 @@ body,
         }
 
         &:hover {
-            color: #fff;
+            color: @white;
         }
 
         &.active {
-            color: #fff;
+            color: @white;
             background-color: @grayBackgroundBorder;
         }
     }
