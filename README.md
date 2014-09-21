@@ -1,0 +1,25 @@
+TEXTp Image Filter
+===
+A fun little Ember-CLI app that converts images into [TEXTp](http://youtube-global.blogspot.com/2010/03/textp-saves-youtube-bandwidth-money.html)&mdash;Youtube's 2010 April Fool's joke.
+
+![](public/assets/images/backgrounds/crab-nebula.png)
+
+Supported platforms
+====
+Tested on Chrome 37+
+
+Setup
+====
+This app uses Ember-CLI 0.0.44 and is a static app. Everything happens locally in the browser and there is no need for a back-end. Build it and serve it:
+
+```
+npm install
+bower install
+ember build --environment=production
+```
+
+or run a local server with:
+
+```
+ember serve
+```
