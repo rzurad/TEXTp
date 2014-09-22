@@ -68,33 +68,49 @@ ApplicationController = Ember.Controller.extend({
                 return;
             }
 
-            // DataTransferItemList object has no `forEach` method :(
-            Ember.ArrayPolyfills.forEach.call(files, function readEntries(file) {
-                var entry = file;
+            if (typeof DataTransferItemList !== 'undefined' && files instanceof DataTransferItemList) {
+                // if we're given a DataTransferItem list, we're in an environment that supports
+                // HTML5 Drag & Drop and the File System API and we can iterate through directories
 
-                if (file.getAsEntry) {
-                    entry = file.getAsEntry();
-                } else if (file.webkitGetAsEntry) {
-                    entry = file.webkitGetAsEntry();
-                }
+                // DataTransferItemList object has no `forEach` method :(
+                Ember.ArrayPolyfills.forEach.call(files, function readEntries(file) {
+                    var entry = file;
 
-                if (entry.isFile) {
-                    entry.file(function (file) {
-                        if (file.type.split('/')[0] === 'image') {
-                            images.push(file);
-                        }
+                    if (file.getAsEntry) {
+                        entry = file.getAsEntry();
+                    } else if (file.webkitGetAsEntry) {
+                        entry = file.webkitGetAsEntry();
+                    }
 
-                        tryComplete();
-                    });
-                } else if (entry.isDirectory) {
-                    entry.createReader().readEntries(function (entries) {
-                        count += entries.length;
-                        entries.forEach(readEntries);
+                    if (entry.isFile) {
+                        entry.file(function (file) {
+                            if (file.type.split('/')[0] === 'image') {
+                                images.push(file);
+                            }
 
-                        tryComplete();
-                    });
-                }
-            });
+                            tryComplete();
+                        });
+                    } else if (entry.isDirectory) {
+                        entry.createReader().readEntries(function (entries) {
+                            count += entries.length;
+                            entries.forEach(readEntries);
+
+                            tryComplete();
+                        });
+                    }
+                });
+            } else {
+                // No directories for us, just a straight FileList
+
+                // neither does the FileList object :(
+                Ember.ArrayPolyfills.forEach.call(files, function (file) {
+                    if (file.type.split('/')[0] === 'image') {
+                        images.push(file);
+                    }
+
+                    tryComplete();
+                });
+            }
         }
     }
 });

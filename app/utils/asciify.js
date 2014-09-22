@@ -20,7 +20,7 @@ function toFloat(x) {
     return x / 255;
 }
 
-function getMosaic(size, imageData, x, y) {
+function getMosaicPixel(size, imageData, x, y) {
     var offset = {
             x: x % size,
             y: y % size
@@ -71,7 +71,7 @@ function asciifyWorker(images) {
         fontmap = global.ascii.fontmap,
 
         x, y;
-        
+
     for (y = 0; y < original.height; y++) {
         for (x = 0; x < original.width; x++) {
             var current = getPixel(original, x, y),
@@ -79,7 +79,7 @@ function asciifyWorker(images) {
                     x: x % size,
                     y: y % size
                 },
-                mosaic = getMosaic(size, original, x, y),
+                mosaic = getMosaicPixel(size, original, x, y),
                 luma = 0.2126 * mosaic['float'].r + 0.7152 * mosaic['float'].g + 0.0722 * mosaic['float'].b,
                 range = (1 / (charcount - 1.0)),
                 fontOffset = size * Math.floor(luma / range),
@@ -115,7 +115,16 @@ function asciify(context, onProgress) {
 
     return (new Parallel({ original: original, ascii: ascii }, {
         onMessage: function (msg) {
-            onProgress(msg.data);
+            switch (msg.name) {
+                case 'debug':
+                    console.log(msg.data);
+                    break;
+                case 'progress':
+                    onProgress(msg.data);
+                    break;
+                default:
+                    Ember.assert('Unhandled event from web worker: ' + msg.name + ', ' + JSON.stringify(msg.data));
+            }
         },
         env: {
             size: size,
@@ -124,7 +133,7 @@ function asciify(context, onProgress) {
             fontmapSize: fontmapSize
         },
         envNamespace: 'ascii'
-    })).require(toByte, toFloat, getPixel, getMosaic).spawn(asciifyWorker).then(function (ascii) {
+    })).require(toByte, toFloat, getPixel, getMosaicPixel).spawn(asciifyWorker).then(function (ascii) {
         context.putImageData(ascii, 0, 0);
     });
 }
@@ -134,6 +143,11 @@ Ember.$('<img id="#fontmap-image"/>').load(function (e) {
 
     fontmapContext.drawImage(Ember.$(e.target).get(0), 0, 0);
     fontmap = fontmapContext.getImageData(0, 0, 128, 128);
+
+    // normalize the native ImageData object into an object whose keys are all not read-only.
+    // It looks like this problem only exists when loading the fontmap, probably because the image
+    // is not inserted into the DOM before getting the ImageData and it doesn't originate from a File.
+    fontmap = { data: fontmap.data, height: fontmap.height, width: fontmap.width };
 }).attr('src', fontmapURL);
 
 export default asciify;
