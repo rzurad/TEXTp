@@ -6,7 +6,7 @@ A fun little Ember-CLI app that converts images into [TEXTp](http://youtube-glob
 
 Supported platforms
 ====
-Tested on Chrome 37, Firefox 32, Safari 7.1, IE 11, and Opera 24
+Tested on Chrome 37, Firefox 32, Safari 7.1, IE 11, and Opera 24. Mobile devices are currently not supported.
 
 Setup
 ====
