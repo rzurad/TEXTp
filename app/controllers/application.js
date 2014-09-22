@@ -1,4 +1,5 @@
 import Ember from "ember";
+/* globals DataTransferItemList */
 
 var ApplicationController;
 

@@ -50,7 +50,7 @@ ApplicationView = Ember.View.extend({
 
     dragOver: intercept(),
 
-    dragEnter: intercept(function (e) {
+    dragEnter: intercept(function () {
         this.set('isHovering', true);
         this.get('controller').send('dragEnter');
     }),
