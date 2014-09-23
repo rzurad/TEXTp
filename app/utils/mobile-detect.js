@@ -1,4 +1,4 @@
-function isMobileOrTablet() {
+export function isMobileOrTablet() {
     // from http://detectmobilebrowsers.com/ updated: 1 August 2014
     // added detection for tablet devices
     var ua = navigator.userAgent || navigator.vendor || window.opera,
@@ -7,4 +7,6 @@ function isMobileOrTablet() {
     return passed;
 }
 
-export default isMobileOrTablet;
+export default {
+    isMobileOrTablet: isMobileOrTablet
+};

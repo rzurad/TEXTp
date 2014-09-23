@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import isMobileOrTablet from '../utils/mobile-detect';
+import { isMobileOrTablet } from '../utils/mobile-detect';
 
 var ApplicationRoute;
 
