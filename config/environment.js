@@ -5,7 +5,7 @@ module.exports = function (environment) {
 
     var ENV = {
             environment: environment,
-            version: '0.9.1',
+            version: '0.9.2',
             baseURL: environment === 'production' ? '/TEXTp/' : '/',
             locationType: 'hash',
             gaTrackingCode: 'XX-XXXXXXXX-X',
