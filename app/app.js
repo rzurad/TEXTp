@@ -19,8 +19,9 @@ if (config.environment === 'production') {
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     ga('create', config.gaTrackingCode, 'auto');
-    ga('send', 'pageview');
     /* jshint ignore:end */
+} else {
+    window.ga = Ember.K;
 }
 
 loadInitializers(App, config.modulePrefix);
