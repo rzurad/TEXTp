@@ -1,14 +1,13 @@
 /* jshint node: true */
 
-module.exports = function (environment) {
-    "use strict";
-
+module.exports = function(environment) {
     var ENV = {
+            modulePrefix: 'textp',
             environment: environment,
             version: '0.9.2',
             baseURL: environment === 'production' ? '/TEXTp/' : '/',
             locationType: 'hash',
-            gaTrackingCode: 'XX-XXXXXXXX-X',
+            gaTrackingCode: 'XX-XXXXXXXX-XX',
             EmberENV: {
                 FEATURES: {
                     // Here you can enable experimental features on an ember canary build
@@ -31,7 +30,15 @@ module.exports = function (environment) {
     }
 
     if (environment === 'test') {
-        ENV.baseURL = '/'; // Testem prefers this...
+        // Testem prefers this...
+        ENV.baseURL = '/';
+        ENV.locationType = 'auto';
+
+        // keep test console output quieter
+        ENV.APP.LOG_ACTIVE_GENERATION = false;
+        ENV.APP.LOG_VIEW_LOOKUPS = false;
+
+        ENV.APP.rootElement = '#ember-testing';
     }
 
     if (environment === 'production') {

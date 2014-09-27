@@ -1,6 +1,7 @@
 import Ember from "ember";
+import config from "../config/environment";
 
-var baseURL = TEXTpENV.baseURL,
+var baseURL = config.baseURL,
     IMAGES = [
         baseURL + 'assets/images/backgrounds/fallout-3.png',
         baseURL + 'assets/images/backgrounds/mass-effect-3.jpg',

@@ -1,5 +1,6 @@
 import Ember from "ember";
 import asciify from "../utils/asciify";
+import config from "../config/environment";
 /* globals ga */
 
 var set = Ember.set,
@@ -100,7 +101,7 @@ ImagesController = Ember.ArrayController.extend({
                 });
             }(0));
 
-            if (TEXTpENV.environment === 'production') {
+            if (config.environment === 'production') {
                 ga('send', 'event', 'process', 'image-count', imageCount);
             }
         }

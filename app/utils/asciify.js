@@ -1,11 +1,12 @@
 import Ember from "ember";
+import config from "../config/environment";
 /* global Parallel, global */ // <--- yeah, it's odd, but it's to make jshint behave with
                               // the way Parallel.js and Web Workers work.
 
 var size = 8,
     charcount = 256,
     fontmapSize = size * Math.floor(Math.sqrt(charcount)),
-    fontmapURL = TEXTpENV.baseURL + 'assets/images/fontmap.png',
+    fontmapURL = config.baseURL + 'assets/images/fontmap.png',
     fontmap;
 
 // convert a float between 0 and 1 into a byte between 0 and 255

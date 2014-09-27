@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="assets/textp.css">
   </head>
   <body>
+    <script>
+      window.EmberENV = {{EMBER_ENV}};
+    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/textp.js"></script>
     <script>
-      window.TEXTpENV = require('textp/config/environment')['default'];
-      window.EmberENV = window.TEXTpENV.EmberENV;
-      window.TEXTp = require('textp/app')['default'].create(TEXTpENV.APP);
+      window.Textp = require('textp/app')['default'].create({{APP_CONFIG}});
     </script>
   </body>
 </html>
