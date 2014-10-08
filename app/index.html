@@ -7,20 +7,14 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{BASE_TAG}}
+    {{content-for 'head'}}
 
     <link rel="icon" href="assets/images/favicon.ico">
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/textp.css">
   </head>
   <body>
-    <script>
-      window.EmberENV = {{EMBER_ENV}};
-    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/textp.js"></script>
-    <script>
-      window.Textp = require('textp/app')['default'].create({{APP_CONFIG}});
-    </script>
   </body>
 </html>
