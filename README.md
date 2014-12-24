@@ -10,7 +10,7 @@ Tested on Chrome 37, Firefox 32, Safari 7.1, IE 11, and Opera 24. Mobile devices
 
 Setup
 ====
-This app uses Ember-CLI 0.0.44 and is a static app. Everything happens locally in the browser and there is no need for a back-end. Build it and serve it:
+This app uses Ember-CLI and is a static app. Everything happens locally in the browser and there is no need for a back-end. Build it and serve it:
 
 ```
 npm install -g ember-cli
