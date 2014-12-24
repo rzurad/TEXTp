@@ -4,7 +4,7 @@ module.exports = function(environment) {
     var ENV = {
             modulePrefix: 'textp',
             environment: environment,
-            version: '0.9.2',
+            version: '0.9.3',
             baseURL: environment === 'production' ? '/TEXTp/' : '/',
             locationType: 'hash',
             gaTrackingCode: 'XX-XXXXXXXX-XX',
