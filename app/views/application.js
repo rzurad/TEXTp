@@ -30,7 +30,7 @@ ApplicationView = Ember.View.extend({
             'background-image: url(',
             IMAGES[~~(Math.random() * IMAGES.length)],
             ');'
-        ].join('');
+        ].join('').htmlSafe();
     }.property(),
 
     observeNoImagesFound: function () {

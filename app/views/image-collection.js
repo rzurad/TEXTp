@@ -8,7 +8,7 @@ ImageCollectionView = Ember.CollectionView.extend({
     attributeBindings: ['style'],
 
     style: function () {
-        return ['left: ', this.get('index') * -100, '%'].join('');
+        return ['left: ', this.get('index') * -100, '%'].join('').htmlSafe();
     }.property('index'),
 
     itemViewClass: ImageView

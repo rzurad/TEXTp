@@ -41,7 +41,7 @@ ImagesController = Ember.ArrayController.extend({
     }.property('index'),
 
     onProcessUpdate: function () {
-        this.set('progressFillStyle', 'width: ' + this.get('percentProcessed') + '%;');
+        this.set('progressFillStyle', ('width: ' + this.get('percentProcessed') + '%;').htmlSafe());
     }.observes('percentProcessed'),
 
     progressFillStyle: '',

@@ -4,7 +4,7 @@ module.exports = function(environment) {
     var ENV = {
             modulePrefix: 'textp',
             environment: environment,
-            version: '0.9.3',
+            version: '0.9.5',
             baseURL: environment === 'production' ? '/TEXTp/' : '/',
             locationType: 'hash',
             gaTrackingCode: 'XX-XXXXXXXX-XX',
@@ -18,6 +18,17 @@ module.exports = function(environment) {
             APP: {
                 // Here you can pass flags/options to your application instance
                 // when it is created
+            },
+
+            contentSecurityPolicy: {
+                'default-src': "'none'",
+                'child-src': "'self'",
+                'script-src': "'self'",
+                'font-src': "'self'",
+                'connect-src': "'self'",
+                'img-src': "'self' https://camo.githubusercontent.com",
+                'style-src': "'unsafe-inline' 'self'",
+                'media-src': "'self'"
             }
         };
 
